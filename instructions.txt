@@ -1,4 +1,57 @@
-CREATE DATABASE hero;
+## 	Rubriks:	
+	Each of the following is worth 5 points, with 3 points allocated for each branch/ commit 
+	and 2 points awarded for a correct query.
+	
+	Committed and Pushed 7 branches or changes: 40 points
+	Committed and Pushed 6 branches or changes: 30 points
+	Committed and Pushed 4 to 5 branches or changes: 20 points
+	Committed and Pushed 1 to 3 branches or changes: 10 point
+	No committed and pushed branch: 0 point
+
+##	Write the SQL query in the "hero sql" section below the specified requirement in the file.
+
+/*1.	Create a new branch named "feat/create-tables"
+
+	Add the provided SQL code line to your "hero.sql" file. 
+	(Refer to the sample output below for the syntax of creating six tables.)*/
+
+/*2.	Create new branch named "feat/insert-data
+
+	Add the provided SQL code line to your "hero.sql" file. 
+	(Refer to the sample output below for the syntax of populating data for six tables.)*/	
+
+/*3.	Create new branch named "feat/add-column-price"
+
+	Add another column in the item table named item_price.
+	Set the column Price data type to Decimal with 2 decimal points.*/
+
+/*4	Create new branch named "feat/update-delete-inactive"
+
+	Update the state of hero 1 to inactive.
+	Delete the item associated with hero 1.*/
+
+/*5	Create new branch named "feat/select-active-players"
+	
+	List the player names and their corresponding hero names that are actively in
+	use during gameplay, excluding those with inactive heroes.*/
+	
+/*6	Create new branch named "feat/select-heroes-archers"
+
+	Provide a list of heroes classified as archers.*/
+	
+/*7 	Create new branch named "feat/select-avg-playerlevel-per-class"
+
+	Retrieve the average player level for each class,
+	arranging them in descending order from the highest level to the lowest.*/
+
+/*8	Push the local repository to the remote repository on GitHub*/
+
+
+--	Sample Output of hero.sql:
+
+CREATE DATABASE hero001
+
+--1.	Create new branch named "feat/create-tables"
 
 CREATE TABLE IF NOT EXISTS public.class
 (
@@ -67,6 +120,10 @@ CREATE TABLE IF NOT EXISTS public.HeroItem
     FOREIGN KEY (item_id) REFERENCES Item(item_id)
 );
 
+
+--2.	Create new branch named "feat/insert-data
+
+-- Insert data into the Class table
 INSERT INTO Class (class_id, class_name, class_description)
 VALUES
     (101, 'Warrior', 'A strong and melee-focused class'),
@@ -149,35 +206,3 @@ VALUES
     (8, 8, 108),  -- Fanny has Thunder Belt
     (9, 9, 109),  -- Leomord has Blade Armor
     (10, 10, 110);  -- Chou has Feather of Heaven
-
--- add column price
-ALTER TABLE public.item
-ADD COLUMN item_price DECIMAL(10, 2);
-
--- Update hero 1 to inactive
-UPDATE public.hero
-SET is_active = false
-WHERE hero_id = 1;
-
--- Delete the item associated with hero 1
-DELETE FROM public.heroitem
-WHERE hero_id = 1;
-
---Select Active Players
-SELECT p.player_name, h.hero_name
-FROM public.player p
-INNER JOIN public.hero h ON p.hero_id = h.hero_id
-WHERE h.is_active = true;
-
---Select heroes archer
-SELECT class_name
-FROM public.class
-WHERE class_name LIKE '%Archers%'
-
---Select average player level per class 
-SELECT c.class_name, AVG(p.player_level) AS average_level
-FROM public.class c
-LEFT JOIN public.hero h ON c.class_id = h.class_id
-LEFT JOIN public.player p ON h.hero_id = p.hero_id
-GROUP BY c.class_name
-ORDER BY average_level DESC;
